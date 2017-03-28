@@ -1,5 +1,10 @@
 [package]
 name = "colored_logger"
+description = "Simple colored logger"
+repository = "https://github.com/KolesnichenkoDS/colored_logger"
+readme = "README.md"
+keywords = ["logger"]
+license = "MIT"
 version = "0.1.0"
 authors = ["Daniil Kolesnichenko <d.s.kolesnichenko@yandex.ru>"]
 
