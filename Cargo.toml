@@ -1,0 +1,8 @@
+[package]
+name = "colored_logger"
+version = "0.1.0"
+authors = ["Daniil Kolesnichenko <d.s.kolesnichenko@yandex.ru>"]
+
+[dependencies]
+log = "0.3.7"
+colored = "1.4"
