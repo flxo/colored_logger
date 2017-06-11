@@ -10,5 +10,5 @@ authors = ["Daniil Kolesnichenko <d.s.kolesnichenko@yandex.ru>"]
 
 [dependencies]
 log = "0.3"
-colored = "1.4"
 chrono = "0.3"
+term-painter = "0.2.3"
