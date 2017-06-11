@@ -35,19 +35,18 @@ impl log::Log for ColoredLogger {
     fn log(&self, record: &LogRecord) {
         if self.enabled(record.metadata()) {
             let time_string = chrono::Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-            let level_color = match record.level() {
-                LogLevel::Trace | LogLevel::Debug => DIMM_COLOR,
-                LogLevel::Info => Color::Green,
-                LogLevel::Warn => Color::Yellow,
-                LogLevel::Error => Color::Red,
+            let (level_color, arg_color) = match record.level() {
+                LogLevel::Trace | LogLevel::Debug => (DIMM_COLOR, DIMM_COLOR),
+                LogLevel::Info => (Color::Green, DIMM_COLOR),
+                LogLevel::Warn => (Color::Yellow, Color::Yellow),
+                LogLevel::Error => (Color::Red, Color::Red),
             };
-
             let module_color = Self::hashed_color(record.location().module_path());
 
             println!("{} {}: {}",
                      level_color.paint(time_string),
                      module_color.paint(record.location().module_path()),
-                     record.args());
+                     arg_color.paint(record.args()));
         }
     }
 }
