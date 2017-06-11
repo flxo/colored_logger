@@ -2,7 +2,11 @@
 extern crate log;
 extern crate colored_logger;
 
+use log::LogLevel;
+
 fn log() {
+    trace!("this is a trace message");
+    debug!("this is a debug message");
     info!("this is a info message");
     warn!("and a warning message");
     error!("something happened... error message");
@@ -10,6 +14,8 @@ fn log() {
 
 mod a {
     pub fn log() {
+        trace!("this is a trace message");
+        debug!("this is a debug message");
         info!("this is a info message");
         warn!("and a warning message");
         error!("something happened... error message");
@@ -18,6 +24,8 @@ mod a {
 
 mod b {
     pub fn log() {
+        trace!("this is a trace message");
+        debug!("this is a debug message");
         info!("this is a info message");
         warn!("and a warning message");
         error!("something happened... error message");
@@ -26,6 +34,8 @@ mod b {
 
 mod c {
     pub fn log() {
+        trace!("this is a trace message");
+        debug!("this is a debug message");
         info!("this is a info message");
         warn!("and a warning message");
         error!("something happened... error message");
@@ -33,7 +43,7 @@ mod c {
 }
 
 fn main() {
-    colored_logger::init().unwrap();
+    colored_logger::init(LogLevel::Trace).unwrap();
 
     log();
     a::log();

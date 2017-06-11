@@ -2,10 +2,12 @@ extern crate log;
 extern crate chrono;
 extern crate term_painter;
 
-use log::{LogLevel, LogLevelFilter, LogMetadata, LogRecord, SetLoggerError};
+use log::{LogLevel, LogMetadata, LogRecord, SetLoggerError};
 use term_painter::{Color, ToStyle};
 
-struct ColoredLogger;
+struct ColoredLogger {
+    max_log_level: LogLevel,
+}
 
 #[cfg(not(target_os = "windows"))]
 pub const DIMM_COLOR: Color = Color::Custom(243);
@@ -13,6 +15,12 @@ pub const DIMM_COLOR: Color = Color::Custom(243);
 pub const DIMM_COLOR: Color = Color::White;
 
 impl ColoredLogger {
+    fn new(max_log_level: LogLevel) -> ColoredLogger {
+        ColoredLogger {
+            max_log_level: max_log_level,
+        }
+    }
+
     /// Filter some unreadable (on dark background) or nasty colors
     fn hashed_color(item: &str) -> Color {
         match item.bytes().fold(42u16, |c, x| c ^ x as u16) {
@@ -29,7 +37,7 @@ impl ColoredLogger {
 
 impl log::Log for ColoredLogger {
     fn enabled(&self, metadata: &LogMetadata) -> bool {
-        metadata.level() <= LogLevel::Info
+        metadata.level() <= self.max_log_level
     }
 
     fn log(&self, record: &LogRecord) {
@@ -51,9 +59,9 @@ impl log::Log for ColoredLogger {
     }
 }
 
-pub fn init() -> Result<(), SetLoggerError> {
+pub fn init(log_level: LogLevel) -> Result<(), SetLoggerError> {
     log::set_logger(|max_log_level| {
-                        max_log_level.set(LogLevelFilter::Debug);
-                        Box::new(ColoredLogger)
+                        max_log_level.set(log_level.to_log_level_filter());
+                        Box::new(ColoredLogger::new(log_level))
                     })
 }
