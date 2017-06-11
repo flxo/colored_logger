@@ -54,7 +54,7 @@ impl log::Log for ColoredLogger {
 
 pub fn init() -> Result<(), SetLoggerError> {
     log::set_logger(|max_log_level| {
-                        max_log_level.set(LogLevelFilter::Info);
+                        max_log_level.set(LogLevelFilter::Debug);
                         Box::new(ColoredLogger)
                     })
 }
